@@ -9,11 +9,16 @@ namespace TubeProject
     {
         public static void Main(string[] args)
         {
-            TubeXMLParser tubeXML = new TubeXMLParser();
-            //parse and read the xml file
-            string XMLPath = "TubeThisWeekend_v1.xml";
-            if (tubeXML.Load(XMLPath)){
-                tubeXML.Read();
+            TubeXMLPull tubeXMLPull = new TubeXMLPull();
+            //private credentials, directory to save the xml file too, app id and app key can be requested from TFL
+            bool xmlPullSuccess = tubeXMLPull.Get(TubeCredentials.app_dir, TubeCredentials.app_id, TubeCredentials.app_key);
+            if (xmlPullSuccess)
+            {
+                TubeXMLParser tubeXML = new TubeXMLParser();
+                //parse and read the xml file
+                if (tubeXML.Load(TubeCredentials.app_dir)){
+                    tubeXML.Read();
+                }
             }
         }
     }

@@ -30,21 +30,48 @@ namespace TubeProject
         }
 
         //read the line sub elements
-        private void ReadTubeLines()
+        private bool ReadTubeLines()
         {
             //read the inner structure of the line
             XmlReader inner = tubeXMLFile.ReadSubtree();
-            inner.ReadToFollowing("Name");
-            Console.WriteLine(inner.ReadElementContentAsString());
+            if (inner.ReadToFollowing("Name")){
+                Console.WriteLine(inner.ReadElementContentAsString());
+            }
+
+            else
+            {
+                Console.WriteLine("No 'Name' Element in 'Line' descendant");
+                inner.Close();
+                return false;
+            }
+
             //get the status of the line
-            inner.ReadToFollowing("Status");
-            inner.ReadStartElement();
-            Console.WriteLine(inner.ReadElementContentAsString());
-            //read any additional messages for the line
-            inner.ReadToFollowing("Message");
-            inner.ReadStartElement();
-            Console.WriteLine(inner.ReadElementContentAsString());
+            if (inner.ReadToFollowing("Status")){
+                inner.ReadStartElement();
+                Console.WriteLine(inner.ReadElementContentAsString());
+                //read any additional messages for the line
+                if (inner.ReadToFollowing("Message")){
+                    inner.ReadStartElement();
+                    Console.WriteLine(inner.ReadElementContentAsString());
+                }
+
+                else
+                {
+                    Console.WriteLine("No 'Message' Element in 'Status' descendant");
+                    inner.Close();
+                    return false;
+                }
+            }
+
+            else
+            {
+                Console.WriteLine("No 'Status' Element in 'Line' descendant");
+                inner.Close();
+                return false;
+            }
+            
             inner.Close();
+            return true;
         }
 
         public void Read()
