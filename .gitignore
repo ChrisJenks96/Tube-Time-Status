@@ -1,0 +1,8 @@
+/.vscode
+/.vs
+/bin
+/obj
+/Properties
+/TestResults
+/TubeProject.csproj
+/TubeProject.sln
