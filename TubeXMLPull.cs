@@ -9,11 +9,21 @@ namespace TubeProject
 {
     public class TubeXMLPull
     {
-        private void Write(string dir, string text)
+        private bool Write(string dir, string text)
         {
-            StreamWriter writer = new StreamWriter(dir);
+            StreamWriter writer;
+            try
+            {
+                writer = new StreamWriter(dir);
+            }
+
+            catch (System.UnauthorizedAccessException){
+                return false;
+            }
+
             writer.Write(text);
             writer.Close();
+            return true;
         }
 
         public bool Get(string app_dir, string app_id, string app_key)
@@ -40,8 +50,12 @@ namespace TubeProject
             string responseText = reader.ReadToEnd();
             reader.Close();
             //write the data to a local file so we can open and digest it
-            Write(app_dir, responseText);
-            return true;
+            if (!Write(app_dir, responseText)){
+                return false;
+            }
+
+            else
+                return true;
         }
     }
 }
