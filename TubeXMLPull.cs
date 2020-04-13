@@ -27,6 +27,20 @@ namespace TubeProject
             return true;
         }
 
+        //https://stackoverflow.com/questions/1366848/httpwebrequest-getresponse-throws-webexception-on-http-304/1366869#1366869
+        //Work around for web exception being thrown when the http request is valid
+        private HttpWebResponse GetHttpResponse(HttpWebRequest request)
+        {
+            try
+            {
+                return (HttpWebResponse)request.GetResponse();
+            }
+
+            catch (WebException ex) when (ex.Status == WebExceptionStatus.ProtocolError && ex.Response != null){
+                return (HttpWebResponse)ex.Response;
+            }
+        }
+
         public bool Get(string app_dir, string app_id, string app_key)
         {
             //make sure non of the strings are empty
@@ -34,17 +48,20 @@ namespace TubeProject
                 MessageBox.Show("App ID/App Key Length: 0");
                 return false;
             }
+
+            //This is the fix - sets the security protocol used by the ServicePoint objects
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            WebResponse response;
             //generate the URL for pulling the tube XML data (v2)
             string xmlURL = "https://tfl.gov.uk/tfl/syndication/feeds/TubeThisWeekend_v2.xml?app_id=";
             xmlURL += app_id;
             xmlURL += "&app_key=";
             xmlURL += app_key;
 
-            WebRequest request = HttpWebRequest.Create(xmlURL);
-            WebResponse response;
             try
             {
-                response = request.GetResponse();
+                //try the modified http response function
+                response = GetHttpResponse((HttpWebRequest)WebRequest.Create(xmlURL));// request.GetResponse();
             }
 
             catch (System.Net.WebException){

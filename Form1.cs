@@ -25,6 +25,7 @@ namespace TubeAppWin
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            //add the 3 columns to our datagridview
             dt.Columns.AddRange(new DataColumn[3]{
                 new DataColumn("Tube Line", typeof(string)),
                 new DataColumn("Status", typeof(string)),
@@ -34,6 +35,7 @@ namespace TubeAppWin
 
         private void UIUpdate()
         {
+            //update data source, resize columns (account for long messages)
             dgvTubeLines.DataSource = dt;
             dgvTubeLines.AllowUserToAddRows = false;
             dgvTubeLines.AutoResizeColumns();
