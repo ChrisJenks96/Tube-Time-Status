@@ -44,6 +44,10 @@ namespace TubeAppWin
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
+            //clear the data table then update the UI
+            dt.Clear();
+            UIUpdate();
+
             TubeXMLPull tubeXMLPull = new TubeXMLPull();
             //private credentials, directory to save the xml file too, app id and app key can be requested from TFL
             bool xmlPullSuccess = tubeXMLPull.Get(TubeCredentials.app_dir, tbAppId.Text, tbAppKey.Text);
@@ -64,6 +68,10 @@ namespace TubeAppWin
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
+            //clear the data table then update the UI
+            dt.Clear();
+            UIUpdate();
+
             OpenFileDialog openFileDialog = new OpenFileDialog();
             //openFileDialog.InitialDirectory = "c:\\";
             openFileDialog.Filter = "xml files (*.xml)|*.txt|All files (*.*)|*.*";

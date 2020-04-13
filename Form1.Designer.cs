@@ -96,6 +96,7 @@
             this.dgvTubeLines.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTubeLines.Location = new System.Drawing.Point(12, 76);
             this.dgvTubeLines.Name = "dgvTubeLines";
+            this.dgvTubeLines.ReadOnly = true;
             this.dgvTubeLines.Size = new System.Drawing.Size(554, 244);
             this.dgvTubeLines.TabIndex = 6;
             // 
