@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Text;
 using System.Xml;
 
@@ -8,6 +9,12 @@ namespace TubeProject
     public class TubeXMLParser
     {
         private XmlTextReader tubeXMLFile;
+        private string tubeXMLDataDate;
+
+        public string GetTubeXMLDataDate(){
+            return tubeXMLDataDate;
+        }
+
         public bool Load(string filename)
         {
             tubeXMLFile = new XmlTextReader(filename);
@@ -30,12 +37,13 @@ namespace TubeProject
         }
 
         //read the line sub elements
-        private bool ReadTubeLines()
+        private bool ReadTubeLines(DataTable dt)
         {
+            string[] data = new string[3];
             //read the inner structure of the line
             XmlReader inner = tubeXMLFile.ReadSubtree();
             if (inner.ReadToFollowing("Name")){
-                Console.WriteLine(inner.ReadElementContentAsString());
+                data[0] = inner.ReadElementContentAsString();
             }
 
             else
@@ -48,11 +56,14 @@ namespace TubeProject
             //get the status of the line
             if (inner.ReadToFollowing("Status")){
                 inner.ReadStartElement();
-                Console.WriteLine(inner.ReadElementContentAsString());
+                data[1] = inner.ReadElementContentAsString();
                 //read any additional messages for the line
                 if (inner.ReadToFollowing("Message")){
                     inner.ReadStartElement();
-                    Console.WriteLine(inner.ReadElementContentAsString());
+                    data[2] = inner.ReadElementContentAsString();
+                    //message is last bit of information we need, so add the rows here as we
+                    //have all the other bits of information
+                    dt.Rows.Add(data[0], data[1], data[2]); 
                 }
 
                 else
@@ -74,7 +85,7 @@ namespace TubeProject
             return true;
         }
 
-        public void Read()
+        public void Read(DataTable dt)
         {
             while (tubeXMLFile.Read()){
                 switch (tubeXMLFile.Name)
@@ -86,12 +97,12 @@ namespace TubeProject
 
                     //the date the information was issued
                     case "PublishDateTime":
-                        Console.WriteLine(tubeXMLFile.ReadElementContentAsString());
+                        tubeXMLDataDate = tubeXMLFile.ReadElementContentAsString();
                         break;
                         
                     //the tube line information
                     case "Line":
-                        ReadTubeLines();
+                        ReadTubeLines(dt);
                         break;
                 }
             }
