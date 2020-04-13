@@ -39,7 +39,8 @@ namespace TubeAppWin
             dgvTubeLines.DataSource = dt;
             dgvTubeLines.AllowUserToAddRows = false;
             dgvTubeLines.AutoResizeColumns();
-            lblXMLDataDate.Text = "Tube XML Data Date: " + tubeXML.GetTubeXMLDataDate();
+            lblXMLDataDate.Text = "Tube XML Date: " + tubeXML.GetTubeXMLDataDate();
+            lblResultsCount.Text = "Results: " + tubeXML.GetTubeXMLResultsCount();
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)

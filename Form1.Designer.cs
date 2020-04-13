@@ -36,6 +36,7 @@
             this.btnLoad = new System.Windows.Forms.Button();
             this.dgvTubeLines = new System.Windows.Forms.DataGridView();
             this.lblXMLDataDate = new System.Windows.Forms.Label();
+            this.lblResultsCount = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTubeLines)).BeginInit();
             this.SuspendLayout();
             // 
@@ -103,17 +104,27 @@
             // lblXMLDataDate
             // 
             this.lblXMLDataDate.AutoSize = true;
-            this.lblXMLDataDate.Location = new System.Drawing.Point(283, 13);
+            this.lblXMLDataDate.Location = new System.Drawing.Point(283, 15);
             this.lblXMLDataDate.Name = "lblXMLDataDate";
-            this.lblXMLDataDate.Size = new System.Drawing.Size(115, 13);
+            this.lblXMLDataDate.Size = new System.Drawing.Size(86, 13);
             this.lblXMLDataDate.TabIndex = 7;
-            this.lblXMLDataDate.Text = "Tube XML Data Date: ";
+            this.lblXMLDataDate.Text = "Tube XML Date:";
+            // 
+            // lblResultsCount
+            // 
+            this.lblResultsCount.AutoSize = true;
+            this.lblResultsCount.Location = new System.Drawing.Point(283, 41);
+            this.lblResultsCount.Name = "lblResultsCount";
+            this.lblResultsCount.Size = new System.Drawing.Size(57, 13);
+            this.lblResultsCount.TabIndex = 8;
+            this.lblResultsCount.Text = "Results:  0";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(578, 332);
+            this.Controls.Add(this.lblResultsCount);
             this.Controls.Add(this.lblXMLDataDate);
             this.Controls.Add(this.dgvTubeLines);
             this.Controls.Add(this.btnLoad);
@@ -144,6 +155,7 @@
         private System.Windows.Forms.Button btnLoad;
         private System.Windows.Forms.DataGridView dgvTubeLines;
         private System.Windows.Forms.Label lblXMLDataDate;
+        private System.Windows.Forms.Label lblResultsCount;
     }
 }
 

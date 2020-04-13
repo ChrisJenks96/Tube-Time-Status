@@ -10,9 +10,14 @@ namespace TubeProject
     {
         private XmlTextReader tubeXMLFile;
         private string tubeXMLDataDate;
+        private int tubeXMLResultsCount = 0;
 
         public string GetTubeXMLDataDate(){
             return tubeXMLDataDate;
+        }
+
+        public int GetTubeXMLResultsCount(){
+            return tubeXMLResultsCount;
         }
 
         public bool Load(string filename)
@@ -63,12 +68,15 @@ namespace TubeProject
                     data[2] = inner.ReadElementContentAsString();
                     //message is last bit of information we need, so add the rows here as we
                     //have all the other bits of information
-                    dt.Rows.Add(data[0], data[1], data[2]); 
+                    dt.Rows.Add(data[0], data[1], data[2]);
+                    tubeXMLResultsCount++;
                 }
 
                 else
                 {
-                    Console.WriteLine("No 'Message' Element in 'Status' descendant");
+                    //no message to add, so write to the table
+                    dt.Rows.Add(data[0], data[1], "");
+                    tubeXMLResultsCount++;
                     inner.Close();
                     return false;
                 }
@@ -76,6 +84,8 @@ namespace TubeProject
 
             else
             {
+                dt.Rows.Add(data[0], "", "");
+                tubeXMLResultsCount++;
                 Console.WriteLine("No 'Status' Element in 'Line' descendant");
                 inner.Close();
                 return false;
@@ -87,6 +97,8 @@ namespace TubeProject
 
         public void Read(DataTable dt)
         {
+            //reset count
+            tubeXMLResultsCount = 0;
             while (tubeXMLFile.Read()){
                 switch (tubeXMLFile.Name)
                 {
