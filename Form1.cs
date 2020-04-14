@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -55,14 +56,14 @@ namespace TubeAppWin
             if (xmlPullSuccess)
             {
                 //parse and read the xml file
-                if (tubeXML.Load(TubeCredentials.app_dir)){
+                if (tubeXML.LoadFile(TubeCredentials.app_dir)){
                     tubeXML.Read(dt);
                     UIUpdate();
                 }
 
                 else
                 {
-                    MessageBox.Show("TubeXMLParser.Load: Failed to load " + TubeCredentials.app_dir);
+                    Debug.WriteLine("TubeXMLParser.Load: Failed to load " + TubeCredentials.app_dir);
                 }
             }
         }
@@ -75,23 +76,22 @@ namespace TubeAppWin
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
             //openFileDialog.InitialDirectory = "c:\\";
-            openFileDialog.Filter = "xml files (*.xml)|*.txt|All files (*.*)|*.*";
+            openFileDialog.Filter = "XML files (*.xml)|*.txt|All files (*.*)|*.*";
             openFileDialog.FilterIndex = 2;
             openFileDialog.RestoreDirectory = true;
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 //parse and read the xml file
-                if (tubeXML.Load(openFileDialog.FileName)){
+                if (tubeXML.LoadFile(openFileDialog.FileName)){
                     tubeXML.Read(dt);
                     UIUpdate();
                 }
 
                 else
                 {
-                    MessageBox.Show("TubeXMLParser.Load: Failed to load " + TubeCredentials.app_dir);
+                    Debug.WriteLine("TubeXMLParser.Load: Failed to load " + TubeCredentials.app_dir);
                 }
-
             }
         }
     }

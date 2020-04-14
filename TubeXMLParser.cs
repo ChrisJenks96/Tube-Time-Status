@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Text;
 using System.Xml;
 
@@ -20,9 +21,8 @@ namespace TubeProject
             return tubeXMLResultsCount;
         }
 
-        public bool Load(string filename)
+        private bool ReadFileCheck()
         {
-            tubeXMLFile = new XmlTextReader(filename);
             try
             {
                 if (tubeXMLFile.Read())
@@ -34,10 +34,24 @@ namespace TubeProject
                 }
             }
 
-            catch (System.IO.FileNotFoundException){
+            catch (System.Xml.XmlException){
+                Debug.WriteLine("ReadFileCheck: System.Xml.XmlException");
                 return false;
             }
 
+            catch (System.IO.FileNotFoundException){
+                Debug.WriteLine("ReadFileCheck: System.IO.FileNotFoundException");
+                return false;
+            }
+
+            return false;
+        }
+
+        public bool LoadFile(string filename)
+        {
+            tubeXMLFile = new XmlTextReader(filename);
+            if (ReadFileCheck())
+                return true;
             return false;
         }
 
@@ -53,7 +67,7 @@ namespace TubeProject
 
             else
             {
-                Console.WriteLine("No 'Name' Element in 'Line' descendant");
+                Debug.WriteLine("No 'Name' Element in 'Line' descendant");
                 inner.Close();
                 return false;
             }
@@ -86,7 +100,7 @@ namespace TubeProject
             {
                 dt.Rows.Add(data[0], "", "");
                 tubeXMLResultsCount++;
-                Console.WriteLine("No 'Status' Element in 'Line' descendant");
+                Debug.WriteLine("No 'Status' Element in 'Line' descendant");
                 inner.Close();
                 return false;
             }
@@ -103,8 +117,8 @@ namespace TubeProject
                 switch (tubeXMLFile.Name)
                 {
                     //a general title for the tube xml document
-                    case "DisplayTitle": 
-                        Console.WriteLine(tubeXMLFile.ReadElementContentAsString());
+                    case "DisplayTitle":
+                        Debug.WriteLine(tubeXMLFile.ReadElementContentAsString());
                         break;
 
                     //the date the information was issued

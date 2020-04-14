@@ -13,18 +13,12 @@ namespace TubeProject
         }
 
         [TestMethod]
-        public void Load_Test()
+        public void LoadFile_Test()
         {
-            bool ret = tubeXMLTest.Load("TubeThisWeekend_v1.xml");
-            Assert.IsTrue(ret, "Func: 'tubeXML::Load' - should be true");
-            ret = tubeXMLTest.Load("notafilewehave.xml");
-            Assert.IsFalse(ret, "Func: 'tubeXML::Load' - should be false");
-        }
-
-        [TestMethod]
-        public void Read_Test()
-        {
-
+            bool ret = tubeXMLTest.LoadFile("TubeThisWeekend_v2.xml");
+            Assert.IsTrue(ret, "Func: 'tubeXML::LoadFile(TubeThisWeekend_v2.xml)' - should be true");
+            ret = tubeXMLTest.LoadFile("notafilewehave.xml");
+            Assert.IsFalse(ret, "Func: 'tubeXML::LoadFile(notafilewehave.xml)' - should be false");
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Xml;
 using System.Net;
 using System.IO;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace TubeProject
 {
@@ -19,6 +20,13 @@ namespace TubeProject
             }
 
             catch (System.UnauthorizedAccessException){
+                Debug.WriteLine("Write: System.UnauthorizedAccessException");
+                return false;
+            }
+
+            //if the file is in use
+            catch (System.IO.IOException){
+                Debug.WriteLine("Write: System.IO.IOException");
                 return false;
             }
 
@@ -45,7 +53,7 @@ namespace TubeProject
         {
             //make sure non of the strings are empty
             if (app_id.Length == 0 || app_key.Length == 0){
-                MessageBox.Show("App ID/App Key Length: 0");
+                Debug.WriteLine("App ID/App Key Length: 0");
                 return false;
             }
 
@@ -65,13 +73,13 @@ namespace TubeProject
             }
 
             catch (System.Net.WebException){
-                MessageBox.Show("System.Net.WebException: Check App ID and App Key");
+                Debug.WriteLine("System.Net.WebException: Check App ID and App Key");
                 return false;
             }
 
             //make sure the response got results before reading it in
             if (response.ContentLength == 0){
-                MessageBox.Show("WebResponse.ContentLength: 0");
+                Debug.WriteLine("WebResponse.ContentLength: 0");
                 return false;
             }
 
@@ -81,7 +89,7 @@ namespace TubeProject
             reader.Close();
             //write the data to a local file so we can open and digest it
             if (!Write(app_dir, responseText)){
-                MessageBox.Show("TubeXMLPull.Write: Could not write to " + app_dir);
+                Debug.WriteLine("TubeXMLPull.Write: Could not write to " + app_dir);
                 return false;
             }
 

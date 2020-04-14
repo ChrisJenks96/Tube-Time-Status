@@ -16,11 +16,11 @@ namespace TubeProject
         public void Get_Test()
         {
             bool ret = tubeXMLPullTest.Get(TubeCredentials.app_dir, TubeCredentials.app_id, TubeCredentials.app_key);
-            Assert.IsTrue(ret, "Func: 'tubeXMLPull::Get' - should be true");
+            Assert.IsTrue(ret, "Func: 'tubeXMLPull::Get(TubeCredentials.app_dir, TubeCredentials.app_id, TubeCredentials.app_key)' - should be true");
             ret = tubeXMLPullTest.Get("C:/Test.XML", TubeCredentials.app_id, TubeCredentials.app_key);
-            Assert.IsFalse(ret, "Func: 'tubeXMLPull::Get' - should be false - Permission Denied for C drive root");
+            Assert.IsFalse(ret, "Func: 'tubeXMLPull::Get('C:/ Test.XML', TubeCredentials.app_id, TubeCredentials.app_key)' - should be false - Permission Denied for C drive root");
             ret = tubeXMLPullTest.Get("", "", "");
-            Assert.IsFalse(ret, "Func: 'tubeXMLPull::Get' - should be false - Empty Parameters");
+            Assert.IsFalse(ret, "Func: 'tubeXMLPull::Get('', '', '')' - should be false - Empty Parameters");
         }
     }
 }
